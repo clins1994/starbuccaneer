@@ -1,8 +1,7 @@
-import fetch from "node-fetch";
-import { attemptConnection } from "./connection.js";
-import getmac from "getmac";
 import crypto from "crypto";
+import { attemptConnection } from "./connection.js";
 import lib from "./lib.js";
+import getMAC from "getmac";
 
 interface Bottle {
   message: string;
@@ -11,7 +10,7 @@ interface Bottle {
 const wait = async () => new Promise((resolve) => setTimeout(resolve, 10000));
 
 const tryFetching = async (bottle: Bottle) => {
-  const user = crypto.createHash("md5").update(getmac()).digest("hex");
+  const user = crypto.createHash("md5").update(getMAC()).digest("hex");
   // This does not send me your MAC address (not that I could do much with it anyway.)
   // It sends me a hash of it, and I'm using that to keep track of how many people
   // are using Starbuccaneer.

@@ -1,5 +1,5 @@
+import getMAC from "getmac";
 import puppeteer from "puppeteer";
-import getmac from "getmac";
 import lib from "./lib.js";
 
 export async function attemptConnection() {
@@ -11,7 +11,7 @@ export async function attemptConnection() {
     await Promise.all([
       page.waitForNavigation(),
       await page.goto(
-        `https://service.wi2.ne.jp/wi2auth/redirect?cmd=login&mac=${getmac()}&essid=%20&apname=tunnel%201&apgroup=&url=http%3A%2F%2Fexample%2Ecom%2F%3F${Math.floor(
+        `https://service.wi2.ne.jp/wi2auth/redirect?cmd=login&mac=${getMAC()}&essid=%20&apname=tunnel%201&apgroup=&url=http%3A%2F%2Fexample%2Ecom%2F%3F${Math.floor(
           Math.random() * 999999999
         )}`
       ),
@@ -39,7 +39,7 @@ export async function attemptConnection() {
     ]);
 
     lib.log("Reading terms of use...");
-    await page.waitForTimeout(2000);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     lib.log("And clicking on agree...");
     let buttonAcceptWorked = false;
@@ -73,7 +73,7 @@ export async function attemptConnection() {
     } else {
       lib.log(
         "Automatic login failed. " +
-          `Title was ${title}. Expected 'logged in' or 'at_STARBUCKS_Wi2'.`
+        `Title was ${title}. Expected 'logged in' or 'at_STARBUCKS_Wi2'.`
       );
       await (async () => new Promise((resolve) => setTimeout(resolve, 5000)))();
     }
